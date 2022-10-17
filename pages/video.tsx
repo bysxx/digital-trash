@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const VideoContainer = styled.div`
@@ -19,10 +20,20 @@ const VideoBox = styled.video`
 
 const Video: React.FC = () => {
   const router = useRouter();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!videoRef.current) {
+      return;
+    }
+
+    videoRef.current.defaultMuted = true;
+    videoRef.current.muted = true;
+  }, []);
 
   return (
     <VideoContainer>
-      <VideoBox autoPlay muted playsInline onEnded={() => router.push('/')}>
+      <VideoBox ref={videoRef} autoPlay muted={true} playsInline onEnded={() => router.push('/')}>
         <source src="/images/video.mp4" />
       </VideoBox>
     </VideoContainer>
