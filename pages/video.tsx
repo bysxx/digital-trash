@@ -22,8 +22,8 @@ const Video: React.FC = () => {
 
   return (
     <VideoContainer>
-      <VideoBox src="/images/video.mp4" autoPlay muted onEnded={() => router.push('/')}>
-        Video
+      <VideoBox autoPlay muted playsInline onEnded={() => router.push('/')}>
+        <source src="/images/video.mp4" />
       </VideoBox>
     </VideoContainer>
   );
