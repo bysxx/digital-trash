@@ -1,63 +1,76 @@
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
   width: 100%;
   height: 100vh;
-  align-items: center;
-  justify-content: center;
-  padding: 86px 50px;
+
+  padding: 40px 100px 0px 100px;
 `;
 
-const MainTitle = styled.h1`
-  font-family: 'Spoqa Han Sans Neo';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px;
-  letter-spacing: -0.03em;
-  color: #000000;
-  text-align: center;
+const MainTitle = styled.img`
+  width: 800px;
+`;
 
-  @media all and (max-width: 768px) {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 27px;
-    /* identical to box height */
+const TrashImageBox = styled.div`
+  position: relative;
+  width: 800px;
 
-    letter-spacing: -0.03em;
-
-    color: #000000;
+  .trash {
+    width: 100%;
   }
-`;
 
-const MainImage = styled.div`
-  display: flex;
-  justify-content: center;
+  .trash-front {
+    position: absolute;
+    left: 0;
+    top: 0;
 
-  margin-top: 93px;
-  width: 100%;
-  border: 1px solid #000000;
-  padding: 100px 0px;
+    width: 100%;
 
-  font-family: 'Spoqa Han Sans Neo';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 19.6518px;
-  line-height: 25px;
-  letter-spacing: -0.03em;
-  color: #000000;
+    z-index: 1;
+  }
 
   input {
     display: none;
   }
 `;
 
+const DropItem = keyframes`
+  0% {
+    transform: translateY(-400px);
+  }
+  
+  90% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+`;
+
+const TrashItem = styled.img<{left: string}>`
+  position: absolute;
+  width: 200px;
+  opacity: 1;
+
+  top: 100px;
+  left: ${(props) => props.left};
+
+  animation: ${DropItem} 3s infinite linear normal;
+`;
+
 const Main: React.FC = () => {
   const [fileImages, setFileImages] = useState<string[]>([]);
   const fileImagesInput = useRef<HTMLInputElement | null>(null);
-  const router = useRouter()
+  const router = useRouter();
 
   const onClickImages = () => {
     fileImagesInput.current?.click();
@@ -76,15 +89,10 @@ const Main: React.FC = () => {
 
   return (
     <MainContainer>
-      <MainTitle>Do you have useless photos?</MainTitle>
-
-      <MainImage
-        className="image"
-        onClick={() => {
-          onClickImages();
-        }}
-      >
-        이미지
+      <MainTitle src="/images/typo.png" />
+      <TrashImageBox onClick={onClickImages}>
+        <img className="trash" src="/images/trash.png" alt="" />
+        <img className="trash-front" src="/images/trash-front.png" alt="" />
         <input
           ref={fileImagesInput}
           className="image__input"
@@ -93,8 +101,11 @@ const Main: React.FC = () => {
           accept="image/*"
           onChange={saveFileImage}
           multiple
+          style={{ display: 'none' }}
         />
-      </MainImage>
+        <TrashItem left={'130px'} src="/images/file.png" />
+        <TrashItem left={'350px'} src="/images/file.png" />
+      </TrashImageBox>
     </MainContainer>
   );
 };

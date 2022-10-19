@@ -33,7 +33,7 @@ const Video: React.FC = () => {
 
   return (
     <VideoContainer>
-      <VideoBox ref={videoRef} autoPlay muted={true} playsInline onEnded={() => router.push('/')}>
+      <VideoBox ref={videoRef} autoPlay playsInline onEnded={() => router.push('/')}>
         <source src="/images/video.mp4" />
       </VideoBox>
     </VideoContainer>
