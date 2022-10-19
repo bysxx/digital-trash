@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
+import { NextPage } from 'next';
 
 const MainContainer = styled.div`
   display: flex;
@@ -10,6 +11,7 @@ const MainContainer = styled.div`
 
   width: 100%;
   height: 100vh;
+  overflow: hidden;
 
   padding: 40px 100px 0px 100px;
 `;
@@ -43,38 +45,47 @@ const TrashImageBox = styled.div`
 
 const DropItem = keyframes`
   0% {
+    opacity: 0;
     transform: translateY(-400px);
   }
-  
-  90% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
 
-  100% {
-    opacity: 0;
+  10% {
+    opacity: 1;
   }
 `;
 
-const TrashItem = styled.img<{left: string}>`
+const TrashItem = styled.img<{ left: number }>`
   position: absolute;
   width: 200px;
   opacity: 1;
 
-  top: 100px;
-  left: ${(props) => props.left};
+  top: 230px;
+  left: ${(props) => `${props.left}px`};
 
-  animation: ${DropItem} 3s infinite linear normal;
+  animation: ${DropItem} infinite 2s linear normal;
 `;
 
-const Main: React.FC = () => {
+const Main: NextPage = () => {
   const [fileImages, setFileImages] = useState<string[]>([]);
   const fileImagesInput = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
+  const [randomFilePos, setRandomFilePos] = useState<number>(130);
+  const [randomPaperPos, setRandomPaperPos] = useState<number>(330);
+
   const onClickImages = () => {
     fileImagesInput.current?.click();
   };
+
+  const onDropFileEnd = () => {
+    const pos = Math.floor(Math.random() * 350) + 125;
+    setRandomFilePos(pos);
+  }
+
+  const onDropPaperEnd = () => {
+    const pos = Math.floor(Math.random() * 350) + 125;
+    setRandomPaperPos(pos);
+  }
 
   const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -103,8 +114,8 @@ const Main: React.FC = () => {
           multiple
           style={{ display: 'none' }}
         />
-        <TrashItem left={'130px'} src="/images/file.png" />
-        <TrashItem left={'350px'} src="/images/file.png" />
+        <TrashItem left={randomFilePos} src="/images/file.png" onAnimationIteration={onDropFileEnd} />
+        <TrashItem left={randomPaperPos} src="/images/paper.png" onAnimationIteration={onDropPaperEnd} />
       </TrashImageBox>
     </MainContainer>
   );
