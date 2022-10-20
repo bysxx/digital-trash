@@ -34,7 +34,7 @@ const Video: React.FC = () => {
   return (
     <VideoContainer>
       <VideoBox ref={videoRef} autoPlay playsInline onEnded={() => router.push('/')}>
-        <source src="/images/video.mp4" />
+        <source src="https://d3f788chbiflqn.cloudfront.net/digital-trash/1.avi" />
       </VideoBox>
     </VideoContainer>
   );

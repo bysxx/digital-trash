@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
 import { NextPage } from 'next';
+import DroppedItem from '@components/DroppedItem';
 
 const MainContainer = styled.div`
   display: flex;
@@ -41,28 +42,6 @@ const TrashImageBox = styled.div`
   input {
     display: none;
   }
-`;
-
-const DropItem = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-400px);
-  }
-
-  10% {
-    opacity: 1;
-  }
-`;
-
-const TrashItem = styled.img<{ left: number }>`
-  position: absolute;
-  width: 200px;
-  opacity: 1;
-
-  top: 230px;
-  left: ${(props) => `${props.left}px`};
-
-  animation: ${DropItem} infinite 2s linear normal;
 `;
 
 const Main: NextPage = () => {
@@ -114,8 +93,12 @@ const Main: NextPage = () => {
           multiple
           style={{ display: 'none' }}
         />
-        <TrashItem left={randomFilePos} src="/images/file.png" onAnimationIteration={onDropFileEnd} />
-        <TrashItem left={randomPaperPos} src="/images/paper.png" onAnimationIteration={onDropPaperEnd} />
+        <DroppedItem type={'file'} />
+        <DroppedItem type={'paper'} />
+        <DroppedItem type={'file'} />
+        <DroppedItem type={'paper'} />
+        <DroppedItem type={'file'} />
+        <DroppedItem type={'paper'} />
       </TrashImageBox>
     </MainContainer>
   );
