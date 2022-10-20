@@ -19,7 +19,7 @@ const MainBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  width: 800px;
+  width: 1024px;
   padding: 50px 20px 0px 20px;
   height: 100%;
 

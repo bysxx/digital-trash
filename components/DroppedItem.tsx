@@ -14,9 +14,11 @@ const DropItem = keyframes`
   }
 `;
 
-const TrashItem = styled.img<{ left: number; duration: number }>`
+type DropType = 'file' | 'paper';
+
+const TrashItem = styled.img<{ left: number; duration: number; type: DropType }>`
   position: absolute;
-  width: 200px;
+  width: ${(props) => (props.type === 'file' ? '280px' : '210px')};
   opacity: 1;
 
   top: 230px;
@@ -27,11 +29,9 @@ const TrashItem = styled.img<{ left: number; duration: number }>`
   animation-duration: ${(props) => `${props.duration}s`};
 
   @media all and (max-width: 768px) {
-    width: 100px;
+    width: ${(props) => (props.type === 'file' ? '80px' : '60px')};
   }
 `;
-
-type DropType = 'file' | 'paper';
 
 interface Props {
   type: DropType;
@@ -56,7 +56,13 @@ const DroppedItem = ({ type }: Props) => {
 
   return (
     <>
-      <TrashItem src={`/images/${type}.png`} left={randomPos} duration={duration} onAnimationIteration={onDropEnd} />
+      <TrashItem
+        src={`/images/${type}.png`}
+        left={randomPos}
+        duration={duration}
+        type={type}
+        onAnimationIteration={onDropEnd}
+      />
     </>
   );
 };
