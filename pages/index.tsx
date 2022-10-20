@@ -4,28 +4,41 @@ import styled, { keyframes } from 'styled-components';
 import { NextPage } from 'next';
 import DroppedItem from '@components/DroppedItem';
 
-const MainContainer = styled.div`
+const MainLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 
   width: 100%;
   height: 100vh;
   overflow: hidden;
+`;
 
-  padding: 40px 100px 0px 100px;
+const MainBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 800px;
+  padding: 50px 20px 0px 20px;
+  height: 100%;
+
+  @media all and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const MainTitle = styled.img`
-  width: 800px;
+  width: 100%;
 `;
 
 const TrashImageBox = styled.div`
   position: relative;
-  width: 800px;
+  width: 100%;
 
   .trash {
+    vertical-align: bottom;
+
     width: 100%;
   }
 
@@ -33,6 +46,7 @@ const TrashImageBox = styled.div`
     position: absolute;
     left: 0;
     top: 0;
+    vertical-align: bottom;
 
     width: 100%;
 
@@ -49,22 +63,9 @@ const Main: NextPage = () => {
   const fileImagesInput = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
-  const [randomFilePos, setRandomFilePos] = useState<number>(130);
-  const [randomPaperPos, setRandomPaperPos] = useState<number>(330);
-
   const onClickImages = () => {
     fileImagesInput.current?.click();
   };
-
-  const onDropFileEnd = () => {
-    const pos = Math.floor(Math.random() * 350) + 125;
-    setRandomFilePos(pos);
-  }
-
-  const onDropPaperEnd = () => {
-    const pos = Math.floor(Math.random() * 350) + 125;
-    setRandomPaperPos(pos);
-  }
 
   const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -78,29 +79,31 @@ const Main: NextPage = () => {
   };
 
   return (
-    <MainContainer>
-      <MainTitle src="/images/typo.png" />
-      <TrashImageBox onClick={onClickImages}>
-        <img className="trash" src="/images/trash.png" alt="" />
-        <img className="trash-front" src="/images/trash-front.png" alt="" />
-        <input
-          ref={fileImagesInput}
-          className="image__input"
-          name="imageUpload"
-          type="file"
-          accept="image/*"
-          onChange={saveFileImage}
-          multiple
-          style={{ display: 'none' }}
-        />
-        <DroppedItem type={'file'} />
-        <DroppedItem type={'paper'} />
-        <DroppedItem type={'file'} />
-        <DroppedItem type={'paper'} />
-        <DroppedItem type={'file'} />
-        <DroppedItem type={'paper'} />
-      </TrashImageBox>
-    </MainContainer>
+    <MainLayout>
+      <MainBox>
+        <MainTitle src="/images/typo.png" />
+        <TrashImageBox onClick={onClickImages}>
+          <img className="trash" src="/images/trash.png" alt="" />
+          <img className="trash-front" src="/images/trash-front.png" alt="" />
+          <input
+            ref={fileImagesInput}
+            className="image__input"
+            name="imageUpload"
+            type="file"
+            accept="image/*"
+            onChange={saveFileImage}
+            multiple
+            style={{ display: 'none' }}
+          />
+          <DroppedItem type={'file'} />
+          <DroppedItem type={'file'} />
+          <DroppedItem type={'file'} />
+          <DroppedItem type={'paper'} />
+          <DroppedItem type={'paper'} />
+          <DroppedItem type={'paper'} />
+        </TrashImageBox>
+      </MainBox>
+    </MainLayout>
   );
 };
 
