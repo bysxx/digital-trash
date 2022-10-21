@@ -12,6 +12,8 @@ const MainLayout = styled.div`
 
   width: 100%;
   height: calc(var(--vh, 1vh) * 100);
+
+  overflow: hidden;
 `;
 
 const MainBox = styled.div`
