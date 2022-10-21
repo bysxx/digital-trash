@@ -1,3 +1,5 @@
-export interface Example {
-    example: string;
+export interface S3ImageData {
+  bucketUrl: string;
+  cdnUrl: string;
+  fileName: string;
 }

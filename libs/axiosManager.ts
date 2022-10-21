@@ -1,6 +1,7 @@
+import { S3ImageData } from '@interfaces/index';
 import axios, { AxiosRequestConfig } from 'axios';
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://picktalk.ml';
 
 const getConfig = (): AxiosRequestConfig => {
   const config: AxiosRequestConfig = {};
@@ -18,6 +19,20 @@ export const getRequest = async <T>(url: string, query?: string): Promise<T> => 
 
 export const postRequest = async <T>(url: string, body: any): Promise<T> => {
   const result = await axios.post<T>(baseUrl + url, body, getConfig());
+
+  return result.data;
+};
+
+export const uploadImage = async (path: string, images: File[]): Promise<S3ImageData[]> => {
+  const form = new FormData();
+  form.append('path', path);
+  images.forEach((img) => form.append('files', img));
+
+  const result = await axios.post<S3ImageData[]>(baseUrl + '/file/uploadFile', form, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 
   return result.data;
 };

@@ -2,13 +2,13 @@ import { useRouter } from 'next/router';
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-const VideoContainer = styled.div`
+const VideoLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 
   background-color: #000;
 `;
@@ -18,7 +18,7 @@ const VideoBox = styled.video`
   max-width: 100%;
 `;
 
-const Video: React.FC = () => {
+const VideoPage: React.FC = () => {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -29,15 +29,17 @@ const Video: React.FC = () => {
 
     videoRef.current.defaultMuted = true;
     videoRef.current.muted = true;
+
+    videoRef.current.play()
   }, []);
 
   return (
-    <VideoContainer>
+    <VideoLayout>
       <VideoBox ref={videoRef} autoPlay playsInline onEnded={() => router.push('/')}>
-        <source src="https://d3f788chbiflqn.cloudfront.net/digital-trash/cat.mp4" />
+        <source src={`https://d3f788chbiflqn.cloudfront.net/digital-trash/video/${Math.floor(Math.random() * 2) + 1}.mp4`} />
       </VideoBox>
-    </VideoContainer>
+    </VideoLayout>
   );
 };
 
-export default Video;
+export default VideoPage;

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
 import { NextPage } from 'next';
 import DroppedItem from '@components/DroppedItem';
+import { uploadImage } from '@libs/axiosManager';
 
 const MainLayout = styled.div`
   display: flex;
@@ -10,8 +11,7 @@ const MainLayout = styled.div`
   align-items: center;
 
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  height: calc(var(--vh, 1vh) * 100);
 `;
 
 const MainBox = styled.div`
@@ -32,7 +32,7 @@ const MainTitle = styled.img`
   width: 100%;
 `;
 
-const TrashImageBox = styled.div`
+const MainTrashBox = styled.div`
   position: relative;
   width: 100%;
 
@@ -58,8 +58,8 @@ const TrashImageBox = styled.div`
   }
 `;
 
-const Main: NextPage = () => {
-  const [fileImages, setFileImages] = useState<string[]>([]);
+const MainPage: NextPage = () => {
+  const [photos, setPhotos] = useState<File[]>([]);
   const fileImagesInput = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
 
@@ -69,12 +69,9 @@ const Main: NextPage = () => {
 
   const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      //   setPhotos(Array.from(event.target.files));
-
-      const files = Array.from(event.target.files).map((file) => URL.createObjectURL(file));
-      setFileImages(files);
-
-      router.push('/video');
+      uploadImage('digital-trash/images', Array.from(event.target.files)).then((r) => {
+        router.push('/video');
+      });
     }
   };
 
@@ -82,7 +79,7 @@ const Main: NextPage = () => {
     <MainLayout>
       <MainBox>
         <MainTitle src="/images/typo.png" />
-        <TrashImageBox onClick={onClickImages}>
+        <MainTrashBox onClick={onClickImages}>
           <img className="trash" src="/images/trash.png" alt="" />
           <img className="trash-front" src="/images/trash-front.png" alt="" />
           <input
@@ -101,10 +98,10 @@ const Main: NextPage = () => {
           <DroppedItem type={'paper'} />
           <DroppedItem type={'paper'} />
           <DroppedItem type={'paper'} />
-        </TrashImageBox>
+        </MainTrashBox>
       </MainBox>
     </MainLayout>
   );
 };
 
-export default Main;
+export default MainPage;
