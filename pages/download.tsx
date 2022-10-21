@@ -38,9 +38,9 @@ const DownloadPage: NextPage = () => {
   const { data } = useQuery('', () => getRequest<any>('/file?bucket=picktalk-backend'), {
     onSuccess: (data) => {
       const result = data
-        .filter((v) => v.Key.includes('digital-trash/images/') && v.Size > 0)
-        .sort((a, b) => (a.LastModified > b.LastModified ? -1 : 1))
-        .map((v) => v.Key);
+        .filter((v: any) => v.Key.includes('digital-trash/images/') && v.Size > 0)
+        .sort((a: any, b: any) => (a.LastModified > b.LastModified ? -1 : 1))
+        .map((v: any) => v.Key);
 
       setImages(result);
     },
