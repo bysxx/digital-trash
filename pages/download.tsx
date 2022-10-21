@@ -35,15 +35,13 @@ const DownloadItem = styled.li`
 
 const DownloadPage: NextPage = () => {
   const [images, setImages] = useState([]);
-  const { data } = useQuery('', () => getRequest('/file?bucket=picktalk-backend'), {
+  const { data } = useQuery('', () => getRequest<any>('/file?bucket=picktalk-backend'), {
     onSuccess: (data) => {
-      console.log(data.filter((v) => v.Key.includes('digital-trash/images/') && v.Size > 0));
       const result = data
         .filter((v) => v.Key.includes('digital-trash/images/') && v.Size > 0)
         .sort((a, b) => (a.LastModified > b.LastModified ? -1 : 1))
         .map((v) => v.Key);
 
-      console.log(result);
       setImages(result);
     },
   });
