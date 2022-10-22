@@ -32,6 +32,7 @@ const MainBox = styled.div`
 
 const MainTitle = styled.img`
   width: 100%;
+  z-index: 1;
 `;
 
 const MainTrashBox = styled.div`
