@@ -30,13 +30,13 @@ const VideoPage: React.FC = () => {
     videoRef.current.defaultMuted = true;
     videoRef.current.muted = true;
 
-    videoRef.current.play()
+    videoRef.current.play();
   }, []);
 
   return (
     <VideoLayout>
       <VideoBox ref={videoRef} autoPlay playsInline onEnded={() => router.push('/')}>
-        <source src={`https://d3f788chbiflqn.cloudfront.net/digital-trash/video/${Math.floor(Math.random() * 2) + 1}.mp4`} />
+        <source src={`/video/${Math.floor(Math.random() * 2) + 1}.mp4`} />
       </VideoBox>
     </VideoLayout>
   );

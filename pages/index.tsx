@@ -71,11 +71,7 @@ const MainPage: NextPage = () => {
   };
 
   const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      uploadImage('digital-trash/images', Array.from(event.target.files)).then((r) => {
-        router.push('/video');
-      });
-    }
+    router.push('/video');
   };
 
   return (
